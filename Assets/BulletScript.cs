@@ -6,6 +6,8 @@ public class BulletScript : MonoBehaviour
 {
     public float shootSpeed;
 
+    public ParticleSystem bulletHitSystem;
+
     // Update is called once per frame
     void Update()
     {
@@ -18,6 +20,8 @@ public class BulletScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        ParticleSystem clone = Instantiate(bulletHitSystem, transform.position, Quaternion.identity);
+        clone.Play();
         Destroy(gameObject);
     }
 }
