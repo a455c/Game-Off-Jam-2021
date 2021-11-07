@@ -7,6 +7,7 @@ public class BulletScript : MonoBehaviour
     public float shootSpeed;
 
     public ParticleSystem bulletHitSystem;
+    public AudioSource hitAudio;
 
     // Update is called once per frame
     void Update()
@@ -22,6 +23,8 @@ public class BulletScript : MonoBehaviour
     {
         ParticleSystem clone = Instantiate(bulletHitSystem, transform.position, Quaternion.identity);
         clone.Play();
+        AudioSource audioclone = Instantiate(hitAudio);
+        audioclone.Play();
         Destroy(gameObject);
     }
 }

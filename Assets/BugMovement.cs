@@ -20,6 +20,10 @@ public class BugMovement : MonoBehaviour
     private bool grappleSystemPlayed = true;
     public ParticleSystem muzzleShootSystem;
 
+    public AudioSource grappleAudio;
+    public AudioSource grappleReachedAudio;
+    bool grappleReachedAudioPlayed = false;
+
     private LineRenderer lr;
 
     public bool isGrappling = false;
@@ -54,10 +58,12 @@ public class BugMovement : MonoBehaviour
         {          
             grapplePoint.position = cam.ScreenToWorldPoint(Input.mousePosition);
             grappleSystemPlayed = false;
+            grappleReachedAudioPlayed = false;
             lr.SetPosition(0, transform.position);
             lr.SetPosition(1, grapplePoint.position);
             isGrappling = true;
             animator.SetTrigger("Squash");
+            grappleAudio.Play();
         }
 
         if (isGrappling)
@@ -67,13 +73,15 @@ public class BugMovement : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, grapplePoint.position, grappleSpeed * Time.deltaTime);
         }
 
-        if(Vector2.Distance(transform.position, grapplePoint.transform.position) <= 0.05f && !grappleSystemPlayed)
+        if(Vector2.Distance(transform.position, grapplePoint.transform.position) <= 0.05f && !grappleSystemPlayed && !grappleReachedAudioPlayed)
         {
             isGrappling = false;
             lr.SetPosition(0, transform.position);
             lr.SetPosition(1, transform.position);
             grappleLandSystem.Play();
             grappleSystemPlayed = true;
+            grappleReachedAudio.Play();
+            grappleReachedAudioPlayed = true;
         }
     }
 
