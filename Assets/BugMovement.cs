@@ -30,6 +30,10 @@ public class BugMovement : MonoBehaviour
     public float moveSpeed;
     public float grappleSpeed;
 
+    bool isInSloMo = false;
+    public float sloMoDelay;
+    float lastDelay;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +47,7 @@ public class BugMovement : MonoBehaviour
     {
         Grapple();
         Shoot();
+        SloMo();
 
         Vector2 vecCursor = cam.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
         float cursorX = vecCursor.x;
@@ -95,25 +100,26 @@ public class BugMovement : MonoBehaviour
             muzzleShootSystem.Play();
 
             animator.SetTrigger("Stretch");
-
-            StartCoroutine(DelayRaycast());
         }       
     }
 
-    private IEnumerator DelayRaycast()
+    private void SloMo()
     {
-        yield return new WaitForSeconds(0.02f);
-        RaycastHit2D hit;
-        hit = Physics2D.Raycast(transform.position, transform.up, 100f, everythingButPlayer);
-        if (hit.collider != null)
+        if (Input.GetKey(KeyCode.Space))
         {
-            print(hit.collider.gameObject.name);
-            if (hit.collider.gameObject.tag == "Switch")
-            {
-                // get switch to turn on
-                ButtonHitScript buttonScript = hit.collider.gameObject.GetComponent<ButtonHitScript>();
-                buttonScript.SwitchOn();
-            }
+            Time.timeScale = 0.25f;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Enemy")
+        {
+            // damage enemy
         }
     }
 }

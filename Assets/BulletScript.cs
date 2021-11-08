@@ -25,6 +25,7 @@ public class BulletScript : MonoBehaviour
         clone.Play();
         AudioSource audioclone = Instantiate(hitAudio);
         audioclone.Play();
+        print(collision.gameObject.name);
         Destroy(gameObject);
     }
 }
