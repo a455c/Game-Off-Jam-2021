@@ -27,5 +27,12 @@ public class BulletScript : MonoBehaviour
         audioclone.Play();
         print(collision.gameObject.name);
         Destroy(gameObject);
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            // damage enemy
+            EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
+            enemy.Kill();
+        }
     }
 }

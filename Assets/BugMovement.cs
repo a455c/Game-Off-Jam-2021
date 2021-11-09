@@ -30,9 +30,8 @@ public class BugMovement : MonoBehaviour
     public float moveSpeed;
     public float grappleSpeed;
 
-    bool isInSloMo = false;
-    public float sloMoDelay;
-    float lastDelay;
+    public float maxHealth;
+    private float currentHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +39,7 @@ public class BugMovement : MonoBehaviour
         grapplePoint.parent = null;
         shootPoint.parent = null;
         lr = GetComponent<LineRenderer>();
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -119,7 +119,21 @@ public class BugMovement : MonoBehaviour
     {
         if(collision.gameObject.tag == "Enemy")
         {
-            // damage enemy
+            if (isGrappling)
+            {
+                // damage enemy
+                EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
+                enemy.Kill();
+            }
+            else
+            {
+                // damage player
+            }
         }
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        currentHealth -= dmg;
     }
 }
