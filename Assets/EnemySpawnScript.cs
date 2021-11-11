@@ -6,6 +6,8 @@ public class EnemySpawnScript : MonoBehaviour
 {
     public GameObject enemyPrefab;
 
+    public ParticleSystem spawnSystem;
+
     float lastDelay;
     public float spawnDelay;
 
@@ -40,14 +42,17 @@ public class EnemySpawnScript : MonoBehaviour
                 spawnT = transform.GetChild(3);
                 break;
             case 5:
-                spawnT = transform.GetChild(3);
+                spawnT = transform.GetChild(4);
                 break;
             case 6:
-                spawnT = transform.GetChild(3);
+                spawnT = transform.GetChild(5);
                 break;
 
         }
         GameObject clone = Instantiate(enemyPrefab, spawnT.position, Quaternion.identity);
         clone.SetActive(true);
+        ParticleSystem clone1 = Instantiate(spawnSystem, clone.transform.position, Quaternion.identity);
+        clone1.Play();
+        
     }
 }

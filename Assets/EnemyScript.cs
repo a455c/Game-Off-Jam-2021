@@ -7,6 +7,8 @@ public class EnemyScript : MonoBehaviour
     public Transform playerT;
     public Transform gunTip;
 
+    public ParticleSystem muzzleShoot;
+
 
     public GameObject enemyBulletPrefab;
 
@@ -48,5 +50,8 @@ public class EnemyScript : MonoBehaviour
         //play sound effect
         GameObject clone = Instantiate(enemyBulletPrefab, gunTip.position, gunTip.rotation);
         clone.SetActive(true);
+        /*ParticleSystem clone1 = Instantiate(muzzleShoot, gunTip.position, gunTip.rotation);
+        clone1.Play();*/
+        muzzleShoot.Play();
     }
 }
