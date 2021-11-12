@@ -7,6 +7,8 @@ public class EnemyScript : MonoBehaviour
     public Transform playerT;
     public Transform gunTip;
 
+    public Animator animator;
+
     public ParticleSystem muzzleShoot;
 
 
@@ -53,5 +55,6 @@ public class EnemyScript : MonoBehaviour
         /*ParticleSystem clone1 = Instantiate(muzzleShoot, gunTip.position, gunTip.rotation);
         clone1.Play();*/
         muzzleShoot.Play();
+        animator.SetTrigger("Enemy Shoot");
     }
 }
