@@ -9,6 +9,8 @@ public class BulletScript : MonoBehaviour
     public ParticleSystem bulletHitSystem;
     public AudioSource hitAudio;
 
+    public BugMovement bug;
+
     // Update is called once per frame
     void Update()
     {
@@ -33,6 +35,13 @@ public class BulletScript : MonoBehaviour
             // damage enemy
             EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
             enemy.Kill();
+            bug.currentScore++;
         }
+        else if(collision.gameObject.tag == "Player")
+        {
+            BugMovement bugMovement = collision.gameObject.GetComponent<BugMovement>();
+            bugMovement.TakeDamage(1);
+        }
+
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class BugMovement : MonoBehaviour
 {
@@ -31,7 +33,12 @@ public class BugMovement : MonoBehaviour
     public float grappleSpeed;
 
     public float maxHealth;
-    private float currentHealth;
+    public float currentHealth;
+
+    public float currentScore;
+
+
+    public Text scoreText;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +47,7 @@ public class BugMovement : MonoBehaviour
         shootPoint.parent = null;
         lr = GetComponent<LineRenderer>();
         currentHealth = maxHealth;
+        currentScore = 0;
     }
 
     // Update is called once per frame
@@ -54,6 +62,12 @@ public class BugMovement : MonoBehaviour
         float cursorY = vecCursor.y;
 
         transform.up = new Vector3(cursorX, cursorY) - transform.position;
+
+        if(currentHealth <= 0)
+        {
+            print("dead");
+        }
+        scoreText.text = System.Convert.ToString(currentScore);
     }
 
     private void Grapple()
@@ -108,30 +122,13 @@ public class BugMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             Time.timeScale = 0.25f;
+
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             Time.timeScale = 1f;
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Enemy")
-        {
-            if (isGrappling)
-            {
-                // damage enemy
-                EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
-                enemy.Kill();
-            }
-            else
-            {
-                // damage player
-            }
-        }
-    }
-
     public void TakeDamage(float dmg)
     {
         currentHealth -= dmg;
