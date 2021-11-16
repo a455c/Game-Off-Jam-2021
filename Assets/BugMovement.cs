@@ -40,6 +40,8 @@ public class BugMovement : MonoBehaviour
 
     public Text scoreText;
 
+    public bool isDead = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,9 +55,12 @@ public class BugMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Grapple();
-        Shoot();
-        SloMo();
+        if (!isDead)
+        {
+            Grapple();
+            Shoot();
+            SloMo();
+        }
 
         Vector2 vecCursor = cam.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
         float cursorX = vecCursor.x;
@@ -63,9 +68,11 @@ public class BugMovement : MonoBehaviour
 
         transform.up = new Vector3(cursorX, cursorY) - transform.position;
 
-        if(currentHealth <= 0)
+        if(currentHealth <= 0 && !isDead)
         {
             print("dead");
+            animator.SetTrigger("Dead");
+            isDead = true;
         }
         scoreText.text = System.Convert.ToString(currentScore);
     }

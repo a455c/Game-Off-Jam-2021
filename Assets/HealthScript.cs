@@ -33,5 +33,9 @@ public class HealthScript : MonoBehaviour
         {
             transform.GetChild(1).gameObject.SetActive(false);
         }
+        else if (player.currentHealth == 0)
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 }

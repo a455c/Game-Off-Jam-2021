@@ -8,16 +8,25 @@ public class EnemySpawnScript : MonoBehaviour
 
     public ParticleSystem spawnSystem;
 
+    public BugMovement bugMovement;
+
     float lastDelay;
     public float spawnDelay;
 
     // Update is called once per frame
     void Update()
     {
-       if (Time.timeSinceLevelLoad >= lastDelay + spawnDelay)
+        if (!bugMovement.isDead)
         {
-            Spawn();
-            lastDelay = Time.timeSinceLevelLoad;
+            if (Time.timeSinceLevelLoad >= lastDelay + spawnDelay)
+            {
+                Spawn();
+                lastDelay = Time.timeSinceLevelLoad;
+            }
+            if (spawnDelay <= 0.2)
+            {
+                spawnDelay = 0.75f;
+            }
         }
     }
 
@@ -53,6 +62,12 @@ public class EnemySpawnScript : MonoBehaviour
         clone.SetActive(true);
         ParticleSystem clone1 = Instantiate(spawnSystem, clone.transform.position, Quaternion.identity);
         clone1.Play();
-        
+        StartCoroutine(SpawnQuicker());
+    }
+
+    IEnumerator SpawnQuicker()
+    {
+        yield return new WaitForSeconds(5);
+        spawnDelay -= 0.05f;
     }
 }

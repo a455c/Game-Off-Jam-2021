@@ -19,24 +19,30 @@ public class EnemyScript : MonoBehaviour
     public float shootDelay;
     private float lastDelay;
 
+    BugMovement bugMovement;
+
     private void Start()
     {
         transform.up = playerT.position - transform.position;
         lastDelay = Time.timeSinceLevelLoad;
+        bugMovement = playerT.gameObject.GetComponent<BugMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if (Time.timeSinceLevelLoad >= lastDelay + shootDelay)
+        if (!bugMovement.isDead)
         {
-            Shoot();
-            lastDelay = Time.timeSinceLevelLoad;
-        }
-        transform.up = playerT.position - transform.position;
+            if (Time.timeSinceLevelLoad >= lastDelay + shootDelay)
+            {
+                Shoot();
+                lastDelay = Time.timeSinceLevelLoad;
+            }
+            transform.up = playerT.position - transform.position;
 
-        transform.position = Vector3.MoveTowards(transform.position, playerT.position, moveSpeed * Time.deltaTime);
+
+            transform.position = Vector3.MoveTowards(transform.position, playerT.position, moveSpeed * Time.deltaTime);
+        }
     }
 
     public void Kill()
