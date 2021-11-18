@@ -37,10 +37,15 @@ public class BugMovement : MonoBehaviour
 
     public float currentScore;
 
+    public bool isPaused = false;
+
 
     public Text scoreText;
+    public Color gold;
 
     public bool isDead = false;
+
+    public ResumeMenu resumeMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -55,11 +60,19 @@ public class BugMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isDead)
+        if (!isDead && !isPaused)
         {
             Grapple();
             Shoot();
             SloMo();
+        }
+        if(Time.timeScale == 0)
+        {
+            isPaused = true;
+        }
+        else
+        {
+            isPaused = false;
         }
 
         Vector2 vecCursor = cam.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
@@ -73,7 +86,14 @@ public class BugMovement : MonoBehaviour
             print("dead");
             animator.SetTrigger("Dead");
             isDead = true;
+            StartCoroutine(resumeMenu.Dead());
         }
+        if(currentScore > HiScore.hiScore)
+        {
+            HiScore.hiScore = currentScore;
+            scoreText.color = gold;
+        }
+
         scoreText.text = System.Convert.ToString(currentScore);
     }
 
