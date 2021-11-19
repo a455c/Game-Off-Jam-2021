@@ -27,6 +27,8 @@ public class UIScript : MonoBehaviour
 
     public void Quit()
     {
+        print("quit");
         Application.Quit();
+        
     }
 }
